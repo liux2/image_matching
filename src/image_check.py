@@ -2,7 +2,6 @@
 """Check if there are any broken images, and index them."""
 
 import os
-import uuid
 from PIL import Image, ImageFile, UnidentifiedImageError
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String
 
@@ -15,7 +14,11 @@ extensions = []
 engine = create_engine("sqlite:///imageMeta.db", echo=True)
 meta = MetaData()
 images = Table(
-    "images", meta, Column("id", Integer, primary_key=True), Column("filename", String),
+    "images",
+    meta,
+    Column("id", Integer, primary_key=True),
+    Column("filename", String),
+    Column("feature", String),
 )
 meta.create_all(engine)
 

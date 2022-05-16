@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 pillow = "*"
 sqlalchemy = "*"
+pysqlite3 = "*"
+numpy = "*"
+opencv-python = "*"
 
 [dev-packages]
 

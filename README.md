@@ -33,16 +33,26 @@ googling on images (over your own image databases).
 
 ### Dataset
 
-[Flickr 8k](https://www.kaggle.com/datasets/adityajn105/flickr8k)
+[Flickr 8k](https://www.kaggle.com/datasets/adityajn105/flickr8k) is used to simulate
+the daily life photos.
 
 
 ## Dependencies
 
 The dependencies are managed by `Pipfile`, and an exported `requirements.txt` is
-available.
+available. To install the dependencies, use your favorite package management system
+to install via `requirements.txt` or use pipenv. Run `pipenv install` to install.
 
 ## How to Run?
 
+1. If your are using other package management system, activate your virtual environment,
+and:
+  - run `python src/image_check.py` to setup the database.
+  - run `python src/ matching.py` to match similar photos.
+
+2. If you are using pipenv:
+  - run `pipenv run check` to setup the database
+  - run `pipenv run ` to match similar photos
 
 ## License
 

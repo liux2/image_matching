@@ -9,6 +9,7 @@ sqlalchemy = "*"
 pysqlite3 = "*"
 numpy = "*"
 opencv-python = "*"
+matplotlib = "*"
 
 [dev-packages]
 

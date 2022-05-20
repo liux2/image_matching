@@ -1,23 +1,44 @@
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String
+import sqlalchemy as db
 import sqlite3
 import numpy as np
 import io
 import cv2
 from features import FeatureExtraction
 from update import UpdateTable
+import matplotlib.pyplot as plt
+import ntpath
 
+# a = UpdateTable()
+# ftr = FeatureExtraction()
+# key1, des1 = a.get_by_id(1)
+# key2, des2 = a.get_by_id(2)
+#
+# key1 = ftr.pickle(key1)
+# key2 = ftr.pickle(key2)
+#
+# bf = cv2.BFMatcher()
+#
+# matches = bf.knnMatch(des1, des2, k=2)
+#
+# good = []
+# for m, n in matches:
+#     # print(m.distance)
+#     if m.distance < 0.75 * n.distance:
+#         good.append([m])
+#         a = len(good)
+#         percent = (a * 100) / len(key2)
+#         print("{} % similarity".format(percent))
+#         if percent >= 75.00:
+#             print("Match Found")
+#         if percent < 75.00:
+#             print("Match not Found")
 
-a = UpdateTable()
-ftr = FeatureExtraction("./img/3657209354_cde9bbd2c5.jpg")
-print(type(ftr.unpickle(ftr.keypoints)[0]))
-# print(ftr.pickle(ftr.unpickle(ftr.keypoints)))
-a.add_by_filename(
-    "./img/3657209354_cde9bbd2c5.jpg", np.asarray([1, 2, 3]), np.asarray([1, 2, 3]),
-)
-
-# b = UpdateTable()
-# b.add_by_id(1, np.asarray([1, 2, 3]), np.asarray([1, 2, 3]))
-# print(b.get_by_id(1))
+# img1 = cv2.imread(a.get_filename(1), 1)
+# img2 = cv2.imread(a.get_filename(2), 1)
+# img3 = cv2.drawMatchesKnn(img1, key1, img2, key2, matches, None, flags=2)
+# plt.imshow(img3)
+# plt.show()
 
 # imageresult = cv2.drawKeypoints(
 #     cv2.imread("./img/3657209354_cde9bbd2c5.jpg", 1),

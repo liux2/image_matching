@@ -62,6 +62,18 @@ class UpdateTable:
         res = self.conn.execute(s).fetchone()
         return self.convert_array(res[-2]), self.convert_array(res[-1])
 
+    def get_id(self, filename):
+        """Get id by using filename."""
+        s = self.images.select().where(self.images.c.filename == filename)
+        res = self.conn.execute(s).fetchone()
+        return res[0]
+
+    def get_filename(self, id):
+        """Get filename by using id."""
+        s = self.images.select().where(self.images.c.id == id)
+        res = self.conn.execute(s).fetchone()
+        return res[1]
+
     def adapt_array(self, arr):
         """
         http://stackoverflow.com/a/31312102/190597 (SoulNibbler)

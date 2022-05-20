@@ -130,5 +130,6 @@ dmypy.json
 
 # Data dir
 img/*
+results/*.*
 .DS_Store
 *.db

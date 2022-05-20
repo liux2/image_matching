@@ -15,6 +15,9 @@ search them one by one from the very beginning. This is so frustrating. And we n
 smart way for this purpose. This is indeed an image retrieval system, in which you can do
 googling on images (over your own image databases).
 
+This is a simple application of ORB descriptors. A database is created for image
+path and features storing.
+
 ### Repo Structure
 
 ```
@@ -50,7 +53,7 @@ and:
 
 2. If you are using pipenv:
   - run `pipenv run check` to setup the database
-  - run `pipenv run ` to match similar photos
+  - run `pipenv run matching` to match similar photos
 
 ## License
 

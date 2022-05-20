@@ -1,8 +1,6 @@
 """
 General idea:
 1. Provide an input image
-2. Construct feature extraction
-3. Decide whether extract feature on the go or store it ahead in db
 4. compare and return the index, maybe store it as a column in the db
 Resources:
 CBIR system intro https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=410145

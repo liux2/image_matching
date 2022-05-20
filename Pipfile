@@ -17,3 +17,4 @@ python_version = "3.9"
 
 [scripts]
 check = "./scripts/db_construction.sh"
+matching = "./scripts/matching.sh"

@@ -16,26 +16,51 @@ class UpdateTable:
             meta,
             Column("id", Integer, primary_key=True),
             Column("filename", String),
-            Column("feature", String),
+            Column("keypoint", String),
+            Column("descriptor", String),
         )
 
-    def add(self, row, feature_arr):
+    def add_by_id(self, id, keypoint, descriptor):
+        """Convert array to binery and add to table."""
+        sqlite3.register_adapter(np.ndarray, self.adapt_array)
+        arr = (
+            self.images.update().where(self.images.c.id == id).values(keypoint=keypoint)
+        )
+        self.conn.execute(arr)
+        arr = (
+            self.images.update()
+            .where(self.images.c.id == id)
+            .values(descriptor=descriptor)
+        )
+        self.conn.execute(arr)
+
+    def add_by_filename(self, filename, keypoint, descriptor):
         """Convert array to binery and add to table."""
         sqlite3.register_adapter(np.ndarray, self.adapt_array)
         arr = (
             self.images.update()
-            .where(self.images.c.id == row)
-            .values(feature=feature_arr)
+            .where(self.images.c.filename == filename)
+            .values(keypoint=keypoint)
+        )
+        self.conn.execute(arr)
+        arr = (
+            self.images.update()
+            .where(self.images.c.filename == filename)
+            .values(descriptor=descriptor)
         )
         self.conn.execute(arr)
 
-    def get(self, row):
+    def get_by_id(self, id):
         """Convert binery text back to array."""
-        s = self.images.select().where(self.images.c.id == row)
+        s = self.images.select().where(self.images.c.id == id)
         res = self.conn.execute(s).fetchone()
-        return self.convert_array(res[-1])
-        # print(res[-1])
-        # print(self.convert_array(res[-1]))
+        return self.convert_array(res[-2]), self.convert_array(res[-1])
+
+    def get_by_filename(self, filename):
+        """Convert binery text back to array."""
+        s = self.images.select().where(self.images.c.filename == filename)
+        res = self.conn.execute(s).fetchone()
+        return self.convert_array(res[-2]), self.convert_array(res[-1])
 
     def adapt_array(self, arr):
         """

@@ -131,3 +131,4 @@ dmypy.json
 # Data dir
 img/*
 .DS_Store
+*.db

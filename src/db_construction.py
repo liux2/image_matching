@@ -1,9 +1,14 @@
 #!/bin/bash
 """Check if there are any broken images, and index them."""
-
+# util
 import os
 from PIL import Image, ImageFile, UnidentifiedImageError
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String
+import numpy as np
+
+# custom
+from update import UpdateTable
+from features import FeatureExtraction
 
 # Declear
 ImageFile.LOAD_TRUNCATED_IMAGES = True
@@ -18,7 +23,8 @@ images = Table(
     meta,
     Column("id", Integer, primary_key=True),
     Column("filename", String),
-    Column("feature", String),
+    Column("keypoint", String),
+    Column("descriptor", String),
 )
 meta.create_all(engine)
 
@@ -36,7 +42,13 @@ for filee in os.listdir(folder_path):
         extensions.append(filee.split(".")[1])
 
 # Indexing images
+tb = UpdateTable()
+
 for filee in os.listdir(folder_path):
     file_path = os.path.join(folder_path, filee)
     conn = engine.connect()
     fin = conn.execute(images.insert().values(filename=file_path))
+    ftr = FeatureExtraction(file_path)
+    tb.add_by_filename(
+        file_path, ftr.unpickle(ftr.keypoints), np.asarray(ftr.descriptors)
+    )

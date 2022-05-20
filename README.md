@@ -4,8 +4,6 @@
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![made-with-OpenCV](https://img.shields.io/badge/Made%20with-OpenCV-green)](https://opencv.org/)
 
-## Table of Contents
-
 
 ## What's This Project About?
 
@@ -48,7 +46,7 @@ to install via `requirements.txt` or use pipenv. Run `pipenv install` to install
 1. If your are using other package management system, activate your virtual environment,
 and:
   - run `python src/image_check.py` to setup the database.
-  - run `python src/ matching.py` to match similar photos.
+  - run `python src/matching.py` to match similar photos.
 
 2. If you are using pipenv:
   - run `pipenv run check` to setup the database

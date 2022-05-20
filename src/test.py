@@ -2,56 +2,29 @@ from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String
 import sqlite3
 import numpy as np
 import io
-
-engine = create_engine("sqlite:///imageMeta.db", echo=True)
-conn = engine.connect()
-meta = MetaData()
-
-
-def adapt_array(arr):
-    """
-    http://stackoverflow.com/a/31312102/190597 (SoulNibbler)
-    """
-    out = io.BytesIO()
-    np.save(out, arr)
-    out.seek(0)
-    return sqlite3.Binary(out.read())
+import cv2
+from features import FeatureExtraction
+from update import UpdateTable
 
 
-def convert_array(text):
-    """
-    https://stackoverflow.com/questions/18621513/python-insert-numpy-array-into-sqlite3-database
-    """
-    out = io.BytesIO(text)
-    out.seek(0)
-    return np.load(out)
-
-
-images = Table(
-    "images",
-    meta,
-    Column("id", Integer, primary_key=True),
-    Column("filename", String),
-    Column("feature", String),
+a = UpdateTable()
+ftr = FeatureExtraction("./img/3657209354_cde9bbd2c5.jpg")
+print(type(ftr.unpickle(ftr.keypoints)[0]))
+# print(ftr.pickle(ftr.unpickle(ftr.keypoints)))
+a.add_by_filename(
+    "./img/3657209354_cde9bbd2c5.jpg", np.asarray([1, 2, 3]), np.asarray([1, 2, 3]),
 )
 
-# Converts np.array to TEXT when inserting
-# sqlite3.register_adapter(np.ndarray, adapt_array)
-# Converts TEXT to np.array when selecting
-# sqlite3.register_converter("array", convert_array)
+# b = UpdateTable()
+# b.add_by_id(1, np.asarray([1, 2, 3]), np.asarray([1, 2, 3]))
+# print(b.get_by_id(1))
 
-x = np.array([[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]])
-stmt = images.update().where(images.c.id == 1).values(feature=convert_array(x))
-conn.execute(stmt)
-s = images.select()
-res = conn.execute(s).fetchone()
-
-print(res[-1])
-print(convert_array(res[-1]))
-# i = 0
-# for row in res:
-#     if i != 1:
-#         print(row[-1])
-#         i += 1
-#     else:
-#         break
+# imageresult = cv2.drawKeypoints(
+#     cv2.imread("./img/3657209354_cde9bbd2c5.jpg", 1),
+#     ftr.keypoints,
+#     None,
+#     color=(255, 0, 0),
+#     flags=0,
+# )
+# cv2.imshow("ORB_image", imageresult)
+# cv2.waitKey()

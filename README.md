@@ -29,6 +29,7 @@ path and features storing.
 ├── imageMeta.db
 ├── img/          # data directory that stores the photo from flickr dataset
 ├── scripts/      # scripts for automation
+├── results/      # results of the query
 └── src/          # Srouce code
 ```
 

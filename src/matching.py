@@ -31,19 +31,22 @@ class SimilarityRetrival:
         key2, des2 = self.table.get_by_id(target_image)
         key2 = self.feature.pickle(key2)
 
-        bf = cv2.BFMatcher()
-        return bf.knnMatch(des1, des2, k=2), key2
+        bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+        matches = bf.match(des1, des2)
+        matches = sorted(matches, key=lambda x: x.distance)
+        return matches, key2
 
     def decide_qualif(self, matches, key2):
         """Calculate the distance, decide whether a good candidate."""
         valid_points = []
-        for m, n in matches:
-            if m.distance < 0.95 * n.distance:
-                valid_points.append([m])
-        percent = (len(valid_points) * 100) / len(key2)
-        if percent >= 55.00:
+        # matches = matches[: int(len(matches) * 0.90)]
+        # for m, n in matches:
+        #     if m.distance < 0.95 * n.distance:
+        #         valid_points.append([m])
+        percent = (len(matches) * 100) / len(key2)
+        if percent >= 30.00:
             return True
-        if percent < 55.00:
+        if percent < 30.00:
             return False
 
     def get_candidates(self, query_img):

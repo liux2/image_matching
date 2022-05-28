@@ -9,14 +9,24 @@ from update import UpdateTable
 import matplotlib.pyplot as plt
 import ntpath
 
-# a = UpdateTable()
-# ftr = FeatureExtraction()
-# key1, des1 = a.get_by_id(1)
-# key2, des2 = a.get_by_id(2)
-#
-# key1 = ftr.pickle(key1)
-# key2 = ftr.pickle(key2)
-#
+a = UpdateTable()
+ftr = FeatureExtraction()
+key1, des1 = a.get_by_id(1)
+key2, des2 = a.get_by_filename("./img/456512643_0aac2fa9ce.jpg")
+
+key1 = ftr.pickle(key1)
+key2 = ftr.pickle(key2)
+
+bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+matches = bf.match(des1, des2)
+matches = sorted(matches, key=lambda x: x.distance)
+
+img1 = cv2.imread(a.get_filename(1), 1)
+img2 = cv2.imread("./img/456512643_0aac2fa9ce.jpg", 1)
+
+out = cv2.drawMatches(img1, key1, img2, key2, matches, None)
+plt.imshow(out)
+plt.show()
 # bf = cv2.BFMatcher()
 #
 # matches = bf.knnMatch(des1, des2, k=2)

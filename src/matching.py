@@ -71,8 +71,8 @@ def main():
     sim = SimilarityRetrival(query_img)
 
     # Clear files for new retrival.
-    for filee in os.listdir("./results"):
-        file_path = os.path.join("./results", filee)
+    for filee in os.listdir("/Users/anerypatel/Desktop/Spring 2022/CV-495/image_matching/results"):
+        file_path = os.path.join("/Users/anerypatel/Desktop/Spring 2022/CV-495/image_matching/results", filee)
         try:
             if os.path.isfile(file_path) or os.path.islink(file_path):
                 os.unlink(file_path)
@@ -81,10 +81,9 @@ def main():
         except Exception as e:
             print("Failed to delete %s. Reason: %s" % (file_path, e))
 
-    shutil.copyfile(table.get_filename(query_img), "./results/input")
+    shutil.copyfile(table.get_filename(query_img), "/Users/anerypatel/Desktop/Spring 2022/CV-495/image_matching/results/input")
     for src in sim.candidates:
-        shutil.copyfile(src, "./results/" + ntpath.basename(src))
-
+        shutil.copyfile(src, "/Users/anerypatel/Desktop/Spring 2022/CV-495/image_matching/results/" + ntpath.basename(src))
 
 if __name__ == "__main__":
     main()

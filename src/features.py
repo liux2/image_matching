@@ -13,11 +13,29 @@ class FeatureExtraction:
         input = cv2.imread(input_image, 1)
         self.keypoints, self.descriptors = self.descriptor(input)
 
-    def descriptor(self, image):
+    def descriptor(self, image, method):
         """Generate descriptors."""
-        ORB_object = cv2.ORB_create()
-        keypoints = ORB_object.detect(image)
-        return ORB_object.compute(image, keypoints)
+        if method == 'ORB':
+            ORB_object = cv2.ORB_create()
+            keypoints = ORB_object.detect(image)
+            desc = ORB_object.compute(image, keypoints)
+            return ORB_object.compute(image, keypoints)
+        elif method == 'Kaze':
+            vector_size = 32
+            alg = cv2.KAZE_create()
+            kps = alg.detect(image)
+            kps = sorted(kps, key=lambda x: -x.response)[:vector_size]
+            kps, dsc = alg.compute(image, kps)
+            return kps, dsc
+            # Flatten all of them in one big vector - our feature vector
+            # dsc = dsc.flatten()
+            # Making descriptor of same size
+            # Descriptor vector size is 64
+            # needed_size = (vector_size * 64)
+            # if dsc.size < needed_size:
+            #     # if we have less the 32 descriptors then just adding zeros at the
+            #     # end of our feature vector
+            #     dsc = np.concatenate([dsc, np.zeros(needed_size - dsc.size)])
 
     def unpickle(self, keypoint):
         """Unpack keypoints."""

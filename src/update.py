@@ -16,8 +16,10 @@ class UpdateTable:
             meta,
             Column("id", Integer, primary_key=True),
             Column("filename", String),
-            Column("keypoint", String),
-            Column("descriptor", String),
+            Column("ORB_keypoint", String),
+            Column("ORB_descriptor", String),
+            Column("KAZE_keypoint", String),
+            Column("KAZE_descriptor", String),
         )
 
     def add_by_id(self, id, keypoint, descriptor):

@@ -12,7 +12,7 @@ from features import FeatureExtraction
 
 # Declear
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-folder_path = "./img"
+folder_path = "/Users/anerypatel/Desktop/Spring 2022/CV-495/image_matching/img"
 extensions = []
 
 # Create database
@@ -23,8 +23,10 @@ images = Table(
     meta,
     Column("id", Integer, primary_key=True),
     Column("filename", String),
-    Column("keypoint", String),
-    Column("descriptor", String),
+    Column("ORB_keypoint", String),
+    Column("ORB_descriptor", String),
+    Column("KAZE_keypoint", String),
+    Column("KAZE_descriptor", String),
 )
 meta.create_all(engine)
 

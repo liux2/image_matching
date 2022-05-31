@@ -8,25 +8,23 @@ class FeatureExtraction:
     ORB is faster and more accurate than SIFT and SURF.
     """
 
-    def __init__(self, input_image=""):
-        # Read image as cv2 numpy array
-        input = cv2.imread(input_image, 1)
-        self.keypoints, self.descriptors = self.descriptor(input)
+    def __init__(self):
+        pass
 
-    def descriptor(self, image, method):
+    def descriptor(self, input_image, method):
         """Generate descriptors."""
-        if method == 'ORB':
+        # Read image as cv2 numpy array
+        image = cv2.imread(input_image, 1)
+        if method == "ORB":
             ORB_object = cv2.ORB_create()
             keypoints = ORB_object.detect(image)
-            desc = ORB_object.compute(image, keypoints)
             return ORB_object.compute(image, keypoints)
-        elif method == 'Kaze':
+        elif method == "KAZE":
             vector_size = 32
             alg = cv2.KAZE_create()
             kps = alg.detect(image)
-            kps = sorted(kps, key=lambda x: -x.response)[:vector_size]
-            kps, dsc = alg.compute(image, kps)
-            return kps, dsc
+            # kps = sorted(kps, key=lambda x: -x.response)[:vector_size]
+            return alg.compute(image, kps)
             # Flatten all of them in one big vector - our feature vector
             # dsc = dsc.flatten()
             # Making descriptor of same size

@@ -17,5 +17,5 @@ matplotlib = "*"
 python_version = "3.9"
 
 [scripts]
-check = "./scripts/db_construction.sh"
+construct = "./scripts/db_construction.sh"
 matching = "./scripts/matching.sh"

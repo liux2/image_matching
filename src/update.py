@@ -22,47 +22,83 @@ class UpdateTable:
             Column("KAZE_descriptor", String),
         )
 
-    def add_by_id(self, id, keypoint, descriptor):
+    def add_by_id(self, id, orb_kps, orb_des, kaze_kps, kaze_des):
         """Convert array to binery and add to table."""
         sqlite3.register_adapter(np.ndarray, self.adapt_array)
-        arr = (
-            self.images.update().where(self.images.c.id == id).values(keypoint=keypoint)
-        )
-        self.conn.execute(arr)
-        arr = (
+        # Keypoints
+        orb = (
             self.images.update()
             .where(self.images.c.id == id)
-            .values(descriptor=descriptor)
+            .values(ORB_keypoint=orb_kps)
         )
-        self.conn.execute(arr)
+        self.conn.execute(orb)
+        kaze = (
+            self.images.update()
+            .where(self.images.c.id == id)
+            .values(KAZE_keypoint=kaze_kps)
+        )
+        self.conn.execute(kaze)
+        # Descriptors
+        orb = (
+            self.images.update()
+            .where(self.images.c.id == id)
+            .values(ORB_descriptor=orb_des)
+        )
+        self.conn.execute(orb)
+        kaze = (
+            self.images.update()
+            .where(self.images.c.id == id)
+            .values(KAZE_descriptor=kaze_des)
+        )
+        self.conn.execute(kaze)
 
-    def add_by_filename(self, filename, keypoint, descriptor):
+    def add_by_filename(self, filename, orb_kps, orb_des, kaze_kps, kaze_des):
         """Convert array to binery and add to table."""
         sqlite3.register_adapter(np.ndarray, self.adapt_array)
-        arr = (
+        # Keypoints
+        orb = (
             self.images.update()
             .where(self.images.c.filename == filename)
-            .values(keypoint=keypoint)
+            .values(ORB_keypoint=orb_kps)
         )
-        self.conn.execute(arr)
-        arr = (
+        self.conn.execute(orb)
+        kaze = (
             self.images.update()
             .where(self.images.c.filename == filename)
-            .values(descriptor=descriptor)
+            .values(KAZE_keypoint=kaze_kps)
         )
-        self.conn.execute(arr)
+        self.conn.execute(kaze)
+        # Descriptors
+        orb = (
+            self.images.update()
+            .where(self.images.c.filename == filename)
+            .values(ORB_descriptor=orb_des)
+        )
+        self.conn.execute(orb)
+        kaze = (
+            self.images.update()
+            .where(self.images.c.filename == filename)
+            .values(KAZE_descriptor=kaze_des)
+        )
+        self.conn.execute(kaze)
 
-    def get_by_id(self, id):
+    def get_by_id(self, id, method="ORB"):
         """Convert binery text back to array."""
         s = self.images.select().where(self.images.c.id == id)
         res = self.conn.execute(s).fetchone()
-        return self.convert_array(res[-2]), self.convert_array(res[-1])
+        if method == "ORB":
+            return self.convert_array(res[-4]), self.convert_array(res[-3])
+        elif method == "KAZE":
+            return self.convert_array(res[-2]), self.convert_array(res[-1])
 
-    def get_by_filename(self, filename):
+    def get_by_filename(self, filename, method="ORB"):
         """Convert binery text back to array."""
         s = self.images.select().where(self.images.c.filename == filename)
         res = self.conn.execute(s).fetchone()
-        return self.convert_array(res[-2]), self.convert_array(res[-1])
+        if method == "ORB":
+            return self.convert_array(res[-4]), self.convert_array(res[-3])
+        elif method == "KAZE":
+            return self.convert_array(res[-2]), self.convert_array(res[-1])
 
     def get_id(self, filename):
         """Get id by using filename."""

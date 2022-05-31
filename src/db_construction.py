@@ -12,7 +12,7 @@ from features import FeatureExtraction
 
 # Declear
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-folder_path = "/Users/anerypatel/Desktop/Spring 2022/CV-495/image_matching/img"
+folder_path = "./img"
 extensions = []
 
 # Create database
@@ -50,7 +50,9 @@ for filee in os.listdir(folder_path):
     file_path = os.path.join(folder_path, filee)
     conn = engine.connect()
     fin = conn.execute(images.insert().values(filename=file_path))
-    ftr = FeatureExtraction(file_path)
+    ftr = FeatureExtraction()
+    orb_kps, orb_des = ftr.descriptor(file_path, "ORB")
+    kaze_kps, kaze_des = ftr.descriptor(file_path, "KAZE")
     tb.add_by_filename(
-        file_path, ftr.unpickle(ftr.keypoints), np.asarray(ftr.descriptors)
+        file_path, ftr.unpickle(orb_kps), orb_des, ftr.unpickle(kaze_kps), kaze_des,
     )

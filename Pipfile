@@ -10,6 +10,9 @@ pysqlite3 = "*"
 numpy = "*"
 opencv-python = "*"
 matplotlib = "*"
+pandas = "*"
+wheel = "*"
+spacy = "*"
 
 [dev-packages]
 

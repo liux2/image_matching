@@ -16,6 +16,7 @@ class UpdateTable:
             meta,
             Column("id", Integer, primary_key=True),
             Column("filename", String),
+            Column("caption", String),
             Column("ORB_keypoint", String),
             Column("ORB_descriptor", String),
             Column("KAZE_keypoint", String),
@@ -100,6 +101,17 @@ class UpdateTable:
         elif method == "KAZE":
             return self.convert_array(res[-2]), self.convert_array(res[-1])
 
+    def get_caption(self, filename=None, id=None):
+        """Get caption by using filename or id."""
+        if filename:
+            s = self.images.select().where(self.images.c.filename == filename)
+            res = self.conn.execute(s).fetchone()
+            return res[2]
+        elif id:
+            s = self.images.select().where(self.images.c.id == id)
+            res = self.conn.execute(s).fetchone()
+            return res[2]
+
     def get_id(self, filename):
         """Get id by using filename."""
         s = self.images.select().where(self.images.c.filename == filename)
@@ -127,4 +139,4 @@ class UpdateTable:
         """
         out = io.BytesIO(text)
         out.seek(0)
-        return np.load(out)
+        return np.load(out, allow_pickle=True)

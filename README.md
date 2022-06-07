@@ -27,10 +27,12 @@ path and features storing.
 ├── Pipfile.lock
 ├── README.md
 ├── imageMeta.db
-├── img/          # data directory that stores the photo from flickr dataset
-├── scripts/      # scripts for automation
-├── results/      # results of the query
-└── src/          # Srouce code
+├── img/          
+|   ├── images/       # data directory that stores the photo from flickr dataset
+|   └── captions.csv  # caption of the images
+├── scripts/          # scripts for automation
+├── results/          # results of the query
+└── src/              # Srouce code
 ```
 
 ### Dataset
@@ -50,11 +52,15 @@ to install via `requirements.txt` or use pipenv. Run `pipenv install` to install
 1. If your are using other package management system, activate your virtual environment,
 and:
   - run `python src/image_check.py` to setup the database.
-  - run `python src/matching.py` to match similar photos.
+  - run
+  `python src/matching.py -f "Relative path in terms of image_matching directory to the query image." -m "ORB or KAZE"`
+  to match similar photos.
 
 2. If you are using pipenv:
   - run `pipenv run check` to setup the database
-  - run `pipenv run matching` to match similar photos
+  - run
+  `pipenv run matching "Relative path in terms of image_matching directory to the query image." "ORB or KAZE"`
+  to match similar photos
 
 ## License
 
